@@ -1,0 +1,265 @@
+\ProvidesPackage{prelude}
+
+% Packages to import
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage[titles]{tocloft}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{etoolbox}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{geometry}
+\usepackage{tikz-cd}
+% Margins
+\geometry{hmargin=2cm,vmargin=2cm}
+
+
+% Formatted letters
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bK}{\mathbb{K}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bM}{\mathbb{M}}
+\newcommand{\bGL}{\mathbb{GL}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cO}{\mathcal{O}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cV}{\mathcal{V}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cS}{\mathcal{S}}
+
+
+% Text command for text strings I need to type in math mode
+\newcommand{\nf}{\textsf{nf}}
+\newcommand{\El}{\textsf{El}}
+\newcommand{\reify}{\textsf{reify}}
+\newcommand{\Var}{\textsf{Var}}
+\newcommand{\Norm}{\textsf{Norm}}
+\newcommand{\Neut}{\textsf{Neut}}
+\newcommand{\Elem}{\textsf{Elem}}
+\newcommand{\Type}{\textsf{Type}}
+\newcommand{\Hom}{\textsf{Hom}}
+\newcommand{\Term}{\textsf{Term}}
+\newcommand{\type}{\textsf{type}}
+\newcommand{\Prop}{\textsf{Prop}}
+\newcommand{\Set}{\textsf{Set}}
+\newcommand{\conv}{\textsf{conv}}
+\newcommand{\strip}{\textsf{strip}}
+\newcommand{\erase}{\textsf{erase}}
+\newcommand{\proj}{\textsf{proj}}
+\newcommand{\app}{\textsf{app}}
+\newcommand{\brec}{\textsf{brec}}
+\newcommand{\Id}{\textsf{id}}
+\newcommand{\p}{\textsf{p}}
+\newcommand{\q}{\textsf{q}}
+\newcommand{\lvq}{\textsf{lq}}
+\newcommand{\lvp}{\textsf{lp}}
+\newcommand{\lvid}{\textsf{lid}}
+\newcommand{\mk}{\textsf{mk}}
+\newcommand{\fst}{\textsf{fst}}
+\newcommand{\snd}{\textsf{snd}}
+\newcommand{\lst}{\textsf{list}}
+\renewcommand{\r}{\textsf{r}}
+\renewcommand{\to}{\textsf{ to }}
+\newcommand{\cast}{\textsf{cast }}
+\newcommand{\U}{\textsf{U}}
+\newcommand{\Univ}{\textsf{U}}
+\newcommand{\N}{\textsf{N}}
+\newcommand{\D}{\textsf{D}}
+\newcommand{\NA}{\textsf{NA}}
+\newcommand{\Small}{\textsf{Small}}
+\newcommand{\Smll}{\textsf{Smll}}
+\newcommand{\Psh}{\textsf{Psh}}
+\DeclareRobustCommand{\ni}{\text{ \reflectbox{$\in$} }}
+\newcommand\chk{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\small\sffamily chk}}}{\; \rightsquigarrow \;}}}
+\newcommand\syn{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\small\sffamily syn}}}{\; \rightsquigarrow \;}}}
+\newcommand{\decode}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\code}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\core}[1]{\textcolor{red}{#1}}
+
+\renewcommand{\char}{\textrm{char}}
+\renewcommand{\Im}{\textrm{Im}}
+\renewcommand{\Re}{\textrm{Re}}
+% Colors
+\definecolor{BlueGreen}{rgb}{0.0,0.6,0.7}
+\definecolor{BlueGreen2}{rgb}{0.0,0.7,0.7}
+\definecolor{LightBlue}{rgb}{0.0,0.2,0.7}
+\definecolor{ocre}{RGB}{0, 113, 188}
+
+% Generic n x n matrix
+
+\newcommand{\MatNxN}[1][\lambda]{\begin{pmatrix}
+    #1_{1, 1} &\cdots &#1_{1,n} \\
+    \vdots    &\ddots &\vdots \\
+    #1_{n, 1} &\cdots &#1_{n, n}
+\end{pmatrix}
+}
+
+% Defines counters for results (proposition, corollary and theorems) and definitions
+
+
+% Defines theorem, definition, proof.. environments
+
+\theoremstyle{definition}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linecolor=ocre,
+  linewidth=1pt
+]{definition}{\color{ocre}Definition}[section]
+
+\theoremstyle{definition}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linecolor=ocre,
+  linewidth=1pt
+]{exemple}{\color{ocre}Example}[section]
+
+\theoremstyle{plain}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  linecolor=BlueGreen,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linewidth=1pt
+]{proposition}{\color{BlueGreen}Proposition}[subsection]
+
+\theoremstyle{plain}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  linecolor=BlueGreen2,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linewidth=1pt
+]{lemme}[proposition]{\color{BlueGreen}Lemma}
+
+\theoremstyle{plain}
+\newmdtheoremenv[
+hidealllines=true,
+leftline=true,
+linecolor=ocre,
+roundcorner=1pt,
+linewidth=1pt,
+innertopmargin=0pt,
+]{theoreme}[proposition]{\color{ocre}Theorem}
+
+\theoremstyle{plain}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  linecolor=BlueGreen2,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linewidth=1pt
+]{corollaire}[proposition]{\color{BlueGreen2}Corollary}
+
+\theoremstyle{plain}
+\newmdtheoremenv[
+  hidealllines=true,
+  leftline=true,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  innertopmargin=0pt,
+  linecolor=LightBlue,
+  linewidth=1pt
+]{exercice}{Exercice}[subsection]
+
+\newenvironment{preuve}{\textcolor{ocre}{\textit{Proof.}}}{}
+
+\renewenvironment{abstract}
+ {\small
+  \begin{center}
+  \bfseries \abstractname\vspace{-.5em}\vspace{0pt}
+  \end{center}
+  \list{}{%
+    \setlength{\leftmargin}{2cm}% <---------- CHANGE HERE
+    \setlength{\rightmargin}{\leftmargin}%
+  }%
+  \item\relax}
+ {\endlist}
+
+% Removes the 
+\renewcommand{\qedsymbol}{}
+
+% Makes every math displayed in display style 
+\everymath{\displaystyle}
+
+% Changes default font
+
+% Avoids alineas at the beginning of a new paragraph 
+\setlength{\parindent}{0cm}
+
+
+
+% Formates the links in the table of contents 
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+%%%%%%%%%%%% Table of contents %%%%%%%%%%%%
+
+% Change TOC name
+\renewcommand{\contentsname}{Table des matières}
+
+% Changes chapter formatting in the table of contents
+%\newcommand{\cftchapfont}{\LARGE\bfseries\hypersetup{linkcolor=ocre}}
+%\newcommand{\cftchappagefont}{\LARGE\bfseries\color{ocre}}
+%\newcommand{\cftchapleader}{\LARGE\bfseries\color{ocre}\cftdotfill{\cftsecdotsep}}
+%\newcommand{\cftchapdotsep}{6}
+%\newcommand{\cftchapafterpnum}{\vskip15pt}
+
+% Changes section formatting in the table of contents
+\renewcommand{\cftsecfont}{\Large\bfseries}
+\renewcommand{\cftsecpagefont}{\Large\bfseries}
+\renewcommand{\cftsecleader}{\hfill}
+\renewcommand{\cftsecafterpnum}{\vskip10pt}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsecafterpnum}{\vskip10pt}
+\renewcommand{\cftsubsecfont}{\large}
+\renewcommand{\cftsubsecpagefont}{\large}
+
+% Changes subsection formatting in the table of contents
+\renewcommand{\cftsubsubsecafterpnum}{\vskip10pt}
+\renewcommand{\cftsubsubsecfont}{\medium}
+\renewcommand{\cftsubsubsecpagefont}{\medium}
+
+% Avoids indentations in the TOC
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{5pt}
+
+%%%%%%%%%%%% Chapter, section.. formating %%%%%%%%%%%%
+\chapterfont{\color{ocre}}
+
+% Changes chapter's title format
+%\titleformat{\chapter}[display]{\normalfont\bfseries}{}{0pt}{\fontsize{24}{10}\bfseries\color{ocre}}
+
+% Avoids page breaks after chapter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
