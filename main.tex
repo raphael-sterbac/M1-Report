@@ -1,9 +1,18 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
+\usepackage{mathpartir}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\prn{\lparen}{\rparen}
+\DeclarePairedDelimiter\brk{[}{]}
+\NewDocumentCommand\Shrink{m}{\mathord{\Downarrow_{#1}}}
+\NewDocumentCommand\Enlarge{m}{\mathord{\Uparrow_{#1}}}
+
+\usepackage{ebproof}
+\usepackage{ebproof-rules}
 \usepackage{float}
 \usepackage{subcaption}
-\usepackage{bussproofs}
 \usepackage[
 style=alphabetic,
 sorting=ynt
@@ -86,136 +95,7 @@ sorting=ynt
 
 \section{Introduction}
 
-\section{A new algebraic Universe Hierarchy}
-
-\subsection{The syntax} \label{rules}
-
-In this section we define a new syntax for universe hierarchies, which aims at making them
-more easy to work with on the engineering side. The main idea is to introduce a "smallness" judgement,
-which correspond to the reflection of $\U_i$ in the $\Type$ world. The rules of this theory
-$\cT_F$ are described in the following:
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A : \U_i$}
-\UnaryInfC{$\Gamma \vdash \decode{A}_i \; \Small_i$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A : \Small_i$}
-\UnaryInfC{$\Gamma \vdash \code{A}_i : \U_i$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A : \U_i$}
-\UnaryInfC{$\Gamma \vdash \decode{A}_i \; \Type$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A = B$}
-\AxiomC{$\Gamma \vdash A \; \Small_i$}
-\BinaryInfC{$\Gamma \vdash \code{A}_i = \code{B}_i : \U_i$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A = B : U_i$}
-\UnaryInfC{$\Gamma \vdash \decode{A}_i = \decode{B}_i$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A : \Small_i$}
-\UnaryInfC{$\Gamma \vdash \decode{\code{A}_i}_i = A$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash \decode{A}_i = \decode{B}_i$}
-\UnaryInfC{$\Gamma \vdash A = B : U_i$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{2em}
-
-Then, we need a smallness rule corresponding to every type formation rule:
-
-\vspace{2em}
-
-\noindent
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash i+1 \leq j$}
-\UnaryInfC{$\Gamma \vdash \U_i : \Small_j$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A \; \Small_i$}
-\AxiomC{$\Gamma.A \vdash B \; \Small_i$}
-\BinaryInfC{$\Gamma \vdash \Pi(A,B) \; \Small_i$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.3\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash \overline{u} \; \Small_i$}
-\UnaryInfC{$\Gamma \vdash \D(\overline{u}) \; \Small_i$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A \; \Small_i$}
-\AxiomC{$\Gamma.A \vdash B \; \Small_i$}
-\BinaryInfC{$\Gamma \vdash \Sigma(A,B) \; \Small_i$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash A \; \Small_i$}
-\UnaryInfC{$\Gamma.(x: A) . (y:A) \vdash x =_A y \; \Small_i$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{2em}
-
-
+\section{Universe hierarchies}
 \begin{figure}[h]
 \centering
 
@@ -264,164 +144,128 @@ Then, we need a smallness rule corresponding to every type formation rule:
 \caption{Our universe hierarchy and its reflection }
 \end{figure}
 
-The injectivity of the decoding function allows to axiomatise the judgements $\Small_i$
-as propositions in our theory, not breaking the generalised algebraic character of the formulation.
+\section{A new algebraic Universe Hierarchy}
 
-\begin{definition}[Smallness judgement]
-    When giving an algebraic formulation of our theory, we axiomatise the smallness judgement $\Small_i$
-    as a proposition $\Small_i(A) : \Prop$.\\
+\subsection{The syntax} \label{rules}
 
-    Hence, judgements $\Gamma \vdash A \; \Small_i$ will be a notation for $\Gamma \vdash p : \Small_i(A)$. 
-    The notation is justified, and does not depend on $p$ because $\Small_i$ is a proposition.
-\end{definition}
+In this section we define a new syntax for universe hierarchies, which provides an
+algebraic presentation for explicit (open) universes, and can be understood as a
+variant of universes à la Coquand.  The main idea is to introduce a "smallness"
+judgement, which correspond to the reflection of $\Univ_i$ in the $\Type$ world.
+The rules of this system $\mathcal{T}_F$ are described in the following.
+\begin{mathpar}
+  \ebrule[univ-decoding-small]{
+    \hypo{\Gamma\vdash A : \Univ_i}
+    \infer1{\Gamma\vdash \decode{A}_i \; \Smll_i}
+  }
+  \and
+  \ebrule[univ-coding-formation]{
+    \hypo{\Gamma\vdash A : \Smll_i}
+    \infer1{\Gamma\vdash \code{A}_i : \Univ_i}
+  }
+  \and
+  \ebrule[univ-decoding-formation]{
+    \hypo{\Gamma\vdash A : \Univ_i}
+    \infer1{\Gamma\vdash \decode{A}_i \; \Type}
+  }
+  \and
+  \ebrule[univ-coding-congruence]{
+    \hypo{\Gamma\vdash A \equiv B}
+    \hypo{\Gamma\vdash A \; \Smll_i}
+    \infer2{\Gamma\vdash \code{A}_i \equiv \code{B}_i : \Univ_i}
+  }
+  \and
+  \ebrule[univ-decoding-congruence]{
+    \hypo{\Gamma\vdash A \equiv B : U_i}
+    \infer1{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
+  }
+\end{mathpar}
 
-\begin{proposition}[Smallness is monotone]
-    The following rule is derivable in $\cT_F$.
-    
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash a  \; \Small_i$}
-    \AxiomC{$\Gamma \vdash i < j$}
-    \BinaryInfC{$\Gamma \vdash a  \; \Small_j$}
-    \end{prooftree}
-\end{proposition}
+In this formulation, we require the rule \textsc{univ-decoding-inj} explicitely, but we don't ask for the closure under type connectives. The other new rule \textsc{univ-decoding-image} states that $\Smll_i$ is the image of $\decode{.}_i$, by requiring explicitely that $\code{.}_i$ is the right-inverse of $\decode{.}_i$.
 
-On top of that, we can define codes for the type connectives along with lifts, and prove
-that they are directly coherent.
+Note that there is no coherence issue related to this, as we only ask $\code{.}_i$ and $\decode{.}_i$ to be inverses of each other on the $\Smll_i$ part of $\Type$.\footnote{\color{red}JMS: Didn't quite understand this. The proposed rules are exactly asking these things to be proper inverses (the inj rule is equivalent to an $\eta$ law that makes the two things mutually inverse).}
+
+\begin{mathpar}
+  \ebrule[univ-decoding-inj]{
+    \hypo{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
+    \infer1{\Gamma\vdash A \equiv B : U_i}
+  }
+  \and
+  \ebrule[univ-decoding-image]{
+    \hypo{\Gamma\vdash A : \Smll_i}
+    \infer1{\Gamma\vdash \decode{\code{A}_i}_i \equiv A}
+  }
+\end{mathpar}
+
+Then, we need a smallness rule corresponding to every type formation rule.
+
+\begin{mathpar}
+  \ebrule[dfun-formation]{
+    \hypo{\Gamma\vdash i+1 \leq j}
+    \infer1{\Gamma\vdash \Univ_i : \Smll_j}
+  }
+  \and
+  \ebrule[dfun-code-formation]{
+    \hypo{\Gamma\vdash M \; \Smll_i}
+    \hypo{\Gamma,x:M\vdash N \; \Smll_i}
+    \infer2{\Gamma\vdash \prn{x:M}\to N\brk{x} \; \Smll_i}
+  }
+\end{mathpar}
+
+
+For the presentation to be algebraic, we axiomatize $\Smll_i$ as a proposition $\Smll_i(A): \mathsf{Prop}$. This is justified by the rule \textsc{univ-decoding-inj}, and thus $A \; \Smll_i$ will be a notation for $p : \Smll_i(A)$. This notation  does not depend on the term $p$, as $\Smll_i$ is a proposition. 
+
+The rules of $\mathcal{T}_F$ are enough to recover a coherent universe hierarchy, and thus $\mathcal{T}_F$ is an algebraic presentation for natural universes.
 
 \begin{proposition}[Derivability of codes and lifts]\label{derivability}
-    We can define the following codes for the type connectives.
+    The following lifting function and codes for type connectives are coherent.
 
     \begin{itemize}
-        \item $t_i^j := \code{\decode{a}_i}_j$
-        \item $\Pi^i := \code{\Pi(\decode{a}_i, \decode{b}_i)}$
-        \item $\Sigma^i := \code{\Sigma(\decode{a}_i, \decode{b}_i)}$
-        \item $\U_i^j := \code{U_i}$
+        \item $\uparrow_i^j (a) := \code{\decode{a}_i}_j$
+        \item $a \to_{\Univ_i} b := \code{ \prn{x:\decode{a}_i}\to \decode{b}_i\brk{x}}_i$
+        \item $\Univ_i^j := \code{\Univ_i}_j$
     \end{itemize}
 
-    Then, the following rules are derivable.
-
-    \vspace{1em}
-
-    \noindent
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash a: \U_n$}
-    \AxiomC{$\Gamma,\decode{a}_n \vdash b: \U_n$}
-    \BinaryInfC{$\Gamma \vdash \decode{\Pi^n \, a \, b}_n = \Pi(\decode{a}_n,\decode{b}_n)$}
-    \end{prooftree}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash a: \U_n$}
-    \AxiomC{$\Gamma,\decode{a}_n \vdash b: \U_n$}
-    \AxiomC{$\Gamma \vdash n<p$}
-    \TrinaryInfC{$\Gamma \vdash t_n^p(\Pi^n \, a \, b) = \Pi^p(t_n^p(a),t_n^p(b))$}
-    \end{prooftree}
-    \end{minipage}
-    \vspace{1em}
-
-    \noindent
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{}
-    \UnaryInfC{$\Gamma \vdash \decode{\U_m^n}_n = \U_m$}
-    \end{prooftree}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash n<m$}
-    \UnaryInfC{$\Gamma \vdash t_n^p(\U_m^n) = \U_m^p : \U_p$}
-    \end{prooftree}
-    \end{minipage}
-    \vspace{1em}
-
-    \noindent
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash a : \U_m$}
-    \AxiomC{$\Gamma \vdash n<m$}
-    \BinaryInfC{$\Gamma \vdash \decode{t_m^n(a)}_n = \decode{a}_m$}
-    \end{prooftree}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.50\linewidth}
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash a : \U_m$}
-    \AxiomC{$\Gamma \vdash m<n<p$}
-    \BinaryInfC{$\Gamma \vdash t_n^p(t_m^n(a)) = t_m^p(a): \U_p$}
-    \end{prooftree}
-    \end{minipage}
-    \vspace{2em}
+    Hence, the following rules are derivable.
+    \begin{mathpar}
+        \ebrule[dfun-decoding]{
+            \hypo{\Gamma\vdash a: \Univ_n}
+            \hypo{\Gamma,x:\decode{a}_n\vdash b: \Univ_n}
+            \infer2{\Gamma\vdash \decode{a \to_{\Univ_n} b}_n \equiv (x: \decode{a}_n) \to \decode{b}_n \brk{x}}
+        }
+        \and
+        \ebrule[dfun-lifting]{
+            \hypo{\Gamma\vdash a: \Univ_n}
+            \hypo{\Gamma,x:\decode{a}_n\vdash b: \Univ_n}
+            \hypo{\Gamma\vdash n<p}
+            \infer3{\Gamma\vdash \; \uparrow_n^p(a \to_{\Univ_n} b) \equiv\; \uparrow_n^p(a) \to_{\Univ_p} \uparrow_n^p(b))}
+        }
+        \and
+        \ebrule[univ-code-decoding]{
+            \hypo{}
+            \infer1{\Gamma\vdash \decode{\Univ_m^n}_n \equiv \Univ_m}
+        }
+        \and
+        \ebrule[univ-code-lifting]{
+            \hypo{\Gamma\vdash n<m}
+            \infer1{\Gamma\vdash \; \uparrow_n^p(\Univ_m^n) \equiv \Univ_m^p : \Univ_p}
+        }
+        \and
+        \ebrule[lifting-decoding]{
+            \hypo{\Gamma\vdash a : \Univ_m}
+            \hypo{\Gamma\vdash n<m}
+            \infer2{\Gamma\vdash \decode{\uparrow_m^n(a)}_n \equiv \decode{a}_m}
+        }
+        \and
+        \ebrule[lifting-lifting]{
+            \hypo{\Gamma\vdash a : \Univ_m}
+            \hypo{\Gamma\vdash m<n<p}
+            \infer2{\Gamma\vdash \; \uparrow_n^p(\uparrow_m^n(a)) \equiv\; \uparrow_m^p(a): \Univ_p}
+        }
+    \end{mathpar}
     
     \end{proposition}
 
-\begin{proof}
-    For example, $t_n^p(t_m^n(a)) = t_m^p(a)$ amounts at showing 
-    $\code{\decode{\code{\decode{a}_m}_n}_n}_p = \code{\decode{a}_m}_p$, 
-    and this can be derived as follows.
-
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash \decode{a}_m  \; \Small_m$}
-    \AxiomC{$\Gamma \vdash m < n$}
-    \BinaryInfC{$\Gamma \vdash \decode{a}_m  \; \Small_n$}
-    \UnaryInfC{$\Gamma \vdash \decode{\code{\decode{a}_m}_n}_n = \decode{a}_m  \; \Type$}
-    \AxiomC{$\Gamma \vdash \decode{a}_m  \; \Small_m$}
-    \AxiomC{$\Gamma \vdash m < p$}
-    \BinaryInfC{$\Gamma \vdash \decode{a}_m  \; \Small_p$}
-    \BinaryInfC{$\Gamma \vdash \code{\decode{\code{\decode{a}_m}_n}_n}_p = \code{\decode{a}_m}_p : \U_p$}
-    \end{prooftree}
-\end{proof}
-
-This shows that our system is at least as expressive as a theory with an usual Tarski universe
-hierarchy. It is really interesting to note that the injectivity rule was not needed to prove
-the derivability of all those rules. However, the injectivity will play a more intrinsic role
-in providing that those lifts are canonical.\\
-
-Semantically, we have the following situation
-
-\begin{figure}[H]
-\begin{subfigure}{0.5\textwidth}
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJVXzAiXSxbMSwwLCJVXzEiXSxbMiwwLCIuLi4iXSxbMywwLCJUeXBlIl0sWzEsMl0sWzIsM10sWzEsMywiRWxfMSIsMSx7ImN1cnZlIjozfV0sWzAsMSwidF8wXjEiXSxbMCwzLCJFbF8wIiwyLHsibGFiZWxfcG9zaXRpb24iOjQwLCJvZmZzZXQiOjQsImN1cnZlIjo1fV1d
-\[\begin{tikzcd}[sep=large]
-    {\cU_0} & {\cU_1} & {...} & \cV
-	\arrow["{t_0^1}", from=1-1, to=1-2]
-	\arrow["{\El_0}"'{pos=0.4}, shift right=3, curve={height=30pt}, from=1-1, to=1-4]
-	\arrow[from=1-2, to=1-3]
-	\arrow["{\El_1}"{description}, curve={height=18pt}, from=1-2, to=1-4]
-	\arrow[from=1-3, to=1-4]
-\end{tikzcd}\]
-\label{fig:subim1}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJVXzAiXSxbMSwwLCJVXzEiXSxbMiwwLCIuLi4iXSxbMywwLCJUeXBlIl0sWzEsMl0sWzIsM10sWzAsMSwidF8wXjEiXSxbMywxLCIiLDEseyJvZmZzZXQiOjIsImN1cnZlIjotMywiY29sb3VyIjpbMCw2MCw2MF19XSxbMCwzLCIiLDEseyJvZmZzZXQiOjIsImN1cnZlIjo1LCJjb2xvdXIiOlswLDYwLDYwXX1dXQ==
-\[\begin{tikzcd}[sep=large]
-	{\cU_0} & {\cU_1} & {...} & \cV 
-	\arrow["{t_0^1}", from=1-1, to=1-2]
-	\arrow[shift right=3, color={rgb,255:red,214;green,92;blue,92}, curve={height=30pt}, from=1-1, to=1-4]
-	\arrow[from=1-2, to=1-3]
-	\arrow[from=1-3, to=1-4]
-	\arrow[shift right=0, color={rgb,255:red,214;green,92;blue,92}, curve={height=-18pt}, from=1-4, to=1-2]
-\end{tikzcd}\]
-\label{fig:subim2}
-\end{subfigure}
-
-
-\caption{Decoding and lifts}
-\end{figure}
-
-And thus $t_0^1$ is a monomorphism, because $\El_0$ and $\El_1$ are. 
-In the model, all of this means that if we have an injective family $\El$ of decoding maps, then
-we get coherent lifts and type connective codes for free, by going "up and down" as in the red path.\\
 
 \subsection{Equivalence with a strict Tarski-style hierarchy}
 
@@ -432,11 +276,12 @@ and relies on the normalisation of the Tarski system.
 \begin{theoreme}[Admissibility of Injectivity]\label{InjectivityTarki}
     The following rule is admissible in $\cT_T$: 
 
-    \begin{prooftree}
-    \def\fCenter{\mbox{\ $\vdash$\ }}
-    \AxiomC{$\Gamma \vdash \El_i(a) = \El_i(b)$}
-    \UnaryInfC{$\Gamma \vdash a = b : \U_i$}
-    \end{prooftree}
+    \begin{mathpar}
+      \ebrule[univ-decoding-inj]{
+        \hypo{\Gamma\vdash \El_i(a) \equiv \El_i(b)}
+        \infer1{\Gamma\vdash A \equiv B : U_i}
+      }
+    \end{mathpar}
 \end{theoreme}
 
 \begin{proof}
@@ -587,125 +432,6 @@ a very strong type theory.\\
 We advocate for injectivity, that we believe to be the easier property in semantics. Hence, our
 result may allow the construction of new models which would not necessarily use properties
 such as realignment to get strict lifts and codes. 
-
-\subsection{Models}
-
-If one want to use the previous results in practice, and give models to the theory without
-strict lifts or decodings, then we need some way to relate its semantics to the more common
-categories presented by the strict version of type theory.\\
-
-In the following, let $\cE$ be a Grothendieck topos. Let $\cT_w$ be the weak theory where
-the lifts satisfy no strict equations, and $\cT$ be the strict theory. Then, the following diagram commutes:
-
-\begin{figure}[H]
-\begin{subfigure}{0.5\textwidth}
-% https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhjYWx7VH0iXSxbMiwwLCJcXG1hdGhjYWx7VH1fdyJdLFs0LDAsIlxcbWF0aGNhbHtFfSJdLFsyLDIsIlxcbWF0aGNhbHtUfSJdLFswLDEsIk5iRSIsMCx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzEsMl0sWzEsMywiaW5qIl0sWzAsMywiaWQiLDJdXQ==
-\[\begin{tikzcd}
-	{\mathcal{T}} && {\mathcal{T}_w} && {\mathcal{E}} \\
-	\\
-	&& {\mathcal{T}}
-    \arrow["{\nf}", hook, from=1-1, to=1-3]
-    \arrow["{\Id}"', from=1-1, to=3-3]
-	\arrow[from=1-3, to=1-5]
-	\arrow[from=1-3, to=3-3]
-\end{tikzcd}\]
-\label{fig:subim1}
-\end{subfigure}
-\begin{subfigure}{0.5\textwidth}
-% https://q.uiver.app/#q=WzAsMixbMCwwLCJcXG1hdGhjYWx7VH1fdyJdLFswLDIsIlxcbWF0aGNhbHtUfSJdLFswLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMSwwLCJuZiIsMix7Im9mZnNldCI6MiwiY3VydmUiOjEsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRvdHRlZCJ9fX1dXQ==
-\[\begin{tikzcd}
-	{\mathcal{T}_w} \\
-	\\
-	{\mathcal{T}}
-	\arrow[from=1-1, to=3-1]
-	\arrow["nf"', shift right=2, curve={height=6pt}, dotted, from=3-1, to=1-1]
-\end{tikzcd}\]
-\label{fig:subim2}
-\end{subfigure}
-\end{figure}
-
-Where $\nf$ normalises terms and types, and interprets them syntactically in the theory $\cT_w$.
-The map $\cT_w \rightarrow \cT$ is the initial map, and $\nf$ is a section (left inverse) to  it,
-given by Artin glueing. This can be summarized by the following conservativity result.
-
-\begin{theoreme}[Conservativity]
-    For all judgement $\Gamma \vdash J$ in $\cT$, the judgement  $\nf(\Gamma) \vdash_w \nf(J)$ holds in $\cT_w$
-    and $\Gamma \vdash \nf(J) = J$ holds in $\cT$.
-\end{theoreme}
-
-\begin{proof}
-TODO : Could be problem with rules involving substitutions. 
-For example, if $A,B,M,N$ in normal form then $\Gamma, N:A \vdash_w M(N) : B(N)$ ?\\
-
-\end{proof}
-
-Hence, to prove something in $\cE$ we can prove the normal form of the statement in $\cT$ and 
-get a corresponding proof in $\cE$ by the conservativity result. This result legitimates considering
-models of the theory $\cT_w$ directly, and thus the model construction only needs to interpret the
-injective family $\El$, and make sure that it is injective.\\
-
-With this, we can already state a result using an already well-known construction, but that we can now use
-to interpret type theory.
-
-\begin{theoreme}
-    The Hoffman-Streicher construction for universes in sheaves can be directly
-    used to interpret dependent type theory.
-\end{theoreme}
-\begin{proof}
-    The construction can be used to create a cumulative hierarchy of universes, with
-    injective lifts. Now we choose a top universe so that our decoding map is defined
-    to be the injective lifting to that universe.
-\end{proof}
-
-Previously, this result was not satisfactory to interpret type theory, as the sheafification
-does not preserve some strict laws. This was pointed out in papers such as \cite{gratzer_strict_2024},
-which created an alternative construction involving realignment and a small object argument.\\
-
-However, the situation is more complicated in $\infty$-topos where a hierarchy of cumulative universes
-with injective lifts is more complicated to construct.\\
-
-
-
-
-We can also try to interpret injectivity of the decoding map without relying on the injectivity of
-lifts, using an alternative definition of a universe by Streicher.
-
-\begin{definition}
-    A class of arrows $\cS \subseteq \Hom_\cE$ is called a universe if it satisfies the following axioms: 
-
-    \begin{itemize}
-        \item[\textbf{(U1)}] $\cS$ is pullback-stable.
-        \item[\textbf{(U2)}] $\cS$ contains all monomorphisms in $\cE$. 
-        \item[\textbf{(U3)}] $\cS$ is closed under composition. 
-        \item[\textbf{(U4)}] if $f: A \rightarrow I$ and $g: B \rightarrow A$ are in $\cS$, then the pushforward
-            $f_* g: B \rightarrow I$ lies in $\cS$.
-        \item[\textbf{(U5)}] There exists a generic morphism $\pi : E \rightarrow U \in \cS$ such that for any $f \in \cS$
-            there exists a \textit{unique} cartesian map $f \rightarrow \pi$.
-    \end{itemize}
-\end{definition}
-
-The only difference with the axioms of Streicher \cite{crosilla_universes_2005} is that we ask the cartesian map $f \rightarrow \pi$ to be
-unique in the definition of the generic family. We interpret $\pi$ as a dependent type $x : U \vdash E[x]$
-such that every dependent type in $\cS$ is a subsitution instance. Asking the cartesian map to be unique
-amounts to require that this subsitution instance is unique. Namely, this means that the interpretation
-of the dependent type $\El$ is required to satisfy the stronger injectivity condition : $\El_i(a) \cong \El_i(b) \implies a = b$.\\
-
-Streicher discussed adding uniqueness for the map $\pi$, and calls such a map a \textit{classifying map}. However,
-this property does not even hold in Set, unless we admit the axiom of choice. Even in this case, it is not
-clear that it will be preserved by taking things up to presheaves using the Hoffman-Streicher construction \cite{awodey_hofmannstreicher_2024}.
-TODO : Should be ok ?\\
-
-When defining the notion of universe in his foundational paper, Bénabou used a similar condition on what
-he calls representable families of arrows. He defines it in the following way, asking for an equality
-instead of the isomorphism induced by the pullback:
-
-\begin{definition}
-    A family $\cF$ of arrows is representable if there exists a map $f: G \rightarrow F \in \cF$ such that
-    forall $x: B \rightarrow A \in \cF$, there is a \textit{unique} $\phi_X : A \rightarrow F$ which satisfies 
-    $\phi_X^*(f) = x$.
-
-    TODO : He puts an equality, but he really means an iso ?
-\end{definition}
 
 \section{Elaboration: Embrace casts}
 
