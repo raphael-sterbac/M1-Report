@@ -34,60 +34,21 @@ sorting=ynt
 
 \hypersetup{
   colorlinks=true,
-  linkcolor=red,
-  citecolor=green
+  linkcolor=Red,
+  urlcolor=Blue
+  citecolor=Green
 }
 
 \renewcommand\qedsymbol{$\Box$}
 \renewcommand*{\proofname}{\textcolor{ocre}{\textit{Proof.}}}
 \renewcommand\labelitemi{-}
 
+\renewcommand{\to}{\rightarrow}
+
 \binoppenalty=10000
 \relpenalty=10000
 
 \begin{document}
-\begin{titlepage}
-    \begin{center}
-
-        
-        \Large
-        \textbf{ÉCOLE NORMALE SUPÉRIEURE PARIS-SACLAY}
-        \vspace{0.3cm}
-        \begin{figure}[h]
-            \centering
-            \includegraphics[width=0.5\linewidth]{LOGOS_ENS.png}
-        \end{figure}
-
-        \vspace{3cm}
-
-        Master's Internship Report 
-
-        \vspace{1em}
-            
-        \Huge
-        \textbf{Towards a Next-Generation Univalent \\Proof Assistant}
-
-        \vspace{2.5cm}
-            
-        \LARGE
-        \textbf{Raphaël Sterbac}
-
-        Under the supervision of \textbf{Jon Sterling}
-
-        (February - July 2026)
-            
-        \vfill
-            
-            
-        \vspace{0.8cm}
-
-
-        \begin{figure}[h]
-            \centering
-            \includegraphics[width=0.4\linewidth]{cambridge-logo.jpg}
-        \end{figure}
-    \end{center}
-\end{titlepage}
 
 \begin{abstract}
     
@@ -95,13 +56,241 @@ sorting=ynt
 
 \section{Introduction}
 
-\section{Universe hierarchies}
-\begin{figure}[h]
+\section{Natural Universe hierarchies}
+% TODO: Give motivation and intuition
+
+We define abstractly what a \textit{natural} universe hierarchy is, by specifying
+its signature categorically. 
+
+\begin{definition}[Natural universe hierarchies]
+    We require a base sort $\Ty$ of types and a preorder category $\bL$ of levels equipped
+    with a successor map, which will be indexing our universe hierarchy.
+
+    Then, our universe hierarchy and decoding map will be a functor $(\cU_\bullet, \El_\bullet) : \bL \longrightarrow P_\pi(\Ty)$.
+    Along with this, we need codes for our type connectives, that need to be "natural" in some way.
+    Therefore, we require two natural transformations :
+
+        \begin{figure}[H]
+        \begin{subfigure}{0.5\textwidth}
+        % https://q.uiver.app/#q=WzAsMyxbMCwyLCJcXG1hdGhiYntMfSJdLFsyLDAsIlBfXFxwaShcXG1hdGhzZntUeX0pIl0sWzIsMiwiUF9cXHBpKFxcbWF0aHNme1R5fSkiXSxbMCwxLCIoXFxtYXRoY2Fse1V9X1xcYnVsbGV0LCBFbF9cXGJ1bGxldCkiXSxbMSwyLCIoVV5cXFBpLCBcXG1hdGhzZntwcm9kfSkiXSxbMCwyLCIoXFxtYXRoY2Fse1V9X1xcYnVsbGV0LCBFbF9cXGJ1bGxldCkiLDJdLFsxLDUsIlxcUGleXFxidWxsZXQiLDAseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MTB9fV1d
+        \[\begin{tikzcd}
+            && {P_\pi(\mathsf{Ty})} \\
+            \\
+            {\mathbb{L}} && {P_\pi(\mathsf{Ty})}
+            \arrow["{(U^\Pi, \mathsf{prod})}", from=1-3, to=3-3]
+            \arrow["{(\mathcal{U}_\bullet, El_\bullet)}", from=3-1, to=1-3]
+            \arrow[""{name=0, anchor=center, inner sep=0}, "{(\mathcal{U}_\bullet, \El_\bullet)}"', from=3-1, to=3-3]
+            \arrow["{\Pi^\bullet}", Rightarrow, from=1-3, to=0]
+        \end{tikzcd}\]
+        \label{fig:subim1}
+        \end{subfigure}
+        \begin{subfigure}{0.5\textwidth}
+        % https://q.uiver.app/#q=WzAsNCxbMCwxLCJcXG1hdGhiYntMfV4rIl0sWzIsMCwiXFxtYXRoYmJ7TH0iXSxbMiwyLCJcXG1hdGhiYntMfSJdLFs0LDEsIlBfXFxwaShUeSkiXSxbMiwzLCIoXFxtYXRoY2Fse1V9X1xcYnVsbGV0LCBFbF9cXGJ1bGxldCkiLDIseyJjdXJ2ZSI6Mn1dLFswLDIsImNvZCIsMix7ImN1cnZlIjoyfV0sWzAsMSwiY29kIiwwLHsiY3VydmUiOi0yfV0sWzEsMywiKDEsdV9cXGJ1bGxldCkiLDAseyJjdXJ2ZSI6LTJ9XSxbMSwyLCJ1X1xcYnVsbGV0XlxcYnVsbGV0IiwwLHsibGV2ZWwiOjJ9XV0=
+        \[\begin{tikzcd}[sep=small]
+            && {\mathbb{L}} && \\
+            {\mathbb{L}^\rightarrow} &&&& {P_\pi(Ty)} \\
+            && {\mathbb{L}}
+            \arrow["{(1,\cU_\bullet)}", curve={height=-12pt}, from=1-3, to=2-5]
+            \arrow["{u_\bullet^\bullet}", Rightarrow, from=1-3, to=3-3]
+            \arrow["cod", curve={height=-12pt}, from=2-1, to=1-3]
+            \arrow["cod"', curve={height=12pt}, from=2-1, to=3-3]
+            \arrow["{(\mathcal{U}_\bullet, El_\bullet)}"', curve={height=12pt}, from=3-3, to=2-5]
+        \end{tikzcd}\]
+        \label{fig:subim2}
+        \end{subfigure}
+    \end{figure}
+
+    Where $(U^\Pi, \mathsf{prod})  = (\Sigma_{A:U} U^{\El(A)}, \  \lambda (A,B). \Pi_{x: \El(A)} \El(B x))$ and $\mathbb{L}^\rightarrow$ is the \textit{strict} arrow
+    category, which can be defined with the successor map.
+
+    %TODO: Strict arrow category
+
+\end{definition}
+
+This formulation is interesting in that it embeds all the rules of cumulative universe hierarchies
+in functoriality and naturality conditions. One can give a more common presentation with typing rules,
+that corresponds to unfolding the diagrams of the previous definition.
+
+\begin{proposition}\label{nat-hierarchy-rules}
+    A natural universe hierarchy is equivalently defined by the more common presentation.
+    
+    \begin{mathpar}
+        \ebrule[dfun-decoding]{
+            \hypo{\Gamma\vdash a: \Univ_n}
+            \hypo{\Gamma,x:\El_n(a)\vdash b: \Univ_n}
+            \infer2{\Gamma\vdash \El_n(\Pi^n \  a \  b) \equiv \Pi_{x: \El_n(a)} \El_n(b \brk{x})}
+        }
+        \and
+        \ebrule[dfun-lifting]{
+            \hypo{\Gamma\vdash a: \Univ_n}
+            \hypo{\Gamma,x:\El_n(a)\vdash b: \Univ_n}
+            \hypo{\Gamma\vdash n\leq p}
+            \infer3{\Gamma\vdash \; \uparrow_n^p(\Pi^n \  a \  b) \equiv\; \Pi^p \  \uparrow_n^p(a) \  \uparrow_n^p(b)}
+        }
+        \and
+        \ebrule[univ-code-decoding]{
+            \hypo{}
+            \infer1{\Gamma\vdash \El_n(\Univ_m^n) \equiv \Univ_m}
+        }
+        \and
+        \ebrule[univ-code-lifting]{
+            \hypo{\Gamma\vdash m < n \leq p}
+            \infer1{\Gamma\vdash \; \uparrow_n^p(\Univ_m^n) \equiv \Univ_m^p : \Univ_p}
+        }
+        \and
+        \ebrule[lifting-decoding]{
+            \hypo{\Gamma\vdash a : \Univ_m}
+            \hypo{\Gamma\vdash m \leq n}
+            \infer2{\Gamma\vdash \El_n(\uparrow_m^n(a)) \equiv \El_m(a)}
+        }
+        \and
+        \ebrule[lifting-lifting]{
+            \hypo{\Gamma\vdash a : \Univ_m}
+            \hypo{\Gamma\vdash m\leq n\leq p}
+            \infer2{\Gamma\vdash \; \uparrow_n^p(\uparrow_m^n(a)) \equiv\; \uparrow_m^p(a): \Univ_p}
+        }
+    \end{mathpar}
+\end{proposition}
+\begin{proof}
+    Unfolding the definition of the functor $(\cU_\bullet, \El_\bullet) : \bL \longrightarrow P_\pi(\Ty)$, we get:
+    \begin{itemize}
+        \item For all $i \in \bL$, a type $\cU_i : \Ty$ and a map $\El_i : \pi(\cU_i) \rightarrow \Ty$.
+        \item For all $i \leq j \in \bL$, a map $\uparrow_i^j : \cU_i \rightarrow \cU_j$  such that the following diagram commute.
+        % https://q.uiver.app/#q=WzAsMyxbMCwwLCJcXG1hdGhjYWx7VX1faSJdLFsxLDAsIlxcbWF0aGNhbHtVfV9qIl0sWzEsMSwiXFxtYXRoc2Z7VHl9Il0sWzAsMSwiXFx1cGFycm93X2leaiJdLFsxLDIsIlxcbWF0aHNme0VsfV9qIl0sWzAsMiwiXFxtYXRoc2Z7RWx9X2kiLDJdXQ==
+        \[\begin{tikzcd}
+            {\mathcal{U}_i} & {\mathcal{U}_j} \\
+            & {\mathsf{Ty}}
+            \arrow["{\uparrow_i^j}", from=1-1, to=1-2]
+            \arrow["{\mathsf{El}_i}"', from=1-1, to=2-2]
+            \arrow["{\mathsf{El}_j}", from=1-2, to=2-2]
+        \end{tikzcd}\]
+    \end{itemize}
+
+    We now unfold the diagram defining $\Pi^\bullet$:
+    \begin{itemize}
+        \item Forall $i \in \bL$, a map $\Pi^i : \Sigma_{A: \cU_i} \cU_i^{\El_i(A)} \longrightarrow \cU_i$ such that the following diagram commute:
+            % https://q.uiver.app/#q=WzAsMyxbMCwwLCIuIl0sWzEsMCwiXFxtYXRoY2Fse1V9X2kiXSxbMSwxLCJcXG1hdGhzZntUeX0iXSxbMCwxLCJcXFBpXmkiXSxbMSwyLCJcXG1hdGhzZntFbH1faSJdLFswLDIsIlxcbWF0aHNme3Byb2R9IiwyXV0=
+            \[\begin{tikzcd}
+                {\Sigma_{A: \cU_i} \cU_i^{\El_i(A)}} & {\mathcal{U}_i} \\
+                & {\mathsf{Ty}}
+                \arrow["{\Pi^i}", from=1-1, to=1-2]
+                \arrow["{\mathsf{prod}}"', from=1-1, to=2-2]
+                \arrow["{\mathsf{El}_i}", from=1-2, to=2-2]
+            \end{tikzcd}\]
+        \item Forall $i \leq j \in \bL$, a commuting square: 
+            % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGJ1bGxldCJdLFsyLDAsIlxcYnVsbGV0Il0sWzAsMSwiXFxtYXRoY2Fse1V9X2kiXSxbMiwxLCJcXG1hdGhjYWx7VX1faiJdLFswLDEsIihcXHVwYXJyb3dfaV5qLFxcdXBhcnJvd19pXmopIl0sWzIsMywiXFx1cGFycm93X2leaiIsMl0sWzAsMiwiXFxQaV5pIiwyXSxbMSwzLCJcXFBpXmoiXV0=
+            \[\begin{tikzcd}
+                {\Sigma_{A: \cU_i} \cU_i^{\El_i(A)}} && {\Sigma_{A: \cU_j} \cU_j^{\El_j(A)}}\\
+                {\mathcal{U}_i} && {\mathcal{U}_j}
+                \arrow["{(\uparrow_i^j,\uparrow_i^j)}", from=1-1, to=1-3]
+                \arrow["{\Pi^i}"', from=1-1, to=2-1]
+                \arrow["{\Pi^j}", from=1-3, to=2-3]
+                \arrow["{\uparrow_i^j}"', from=2-1, to=2-3]
+            \end{tikzcd}\]
+    \end{itemize}
+
+    And unfolding the diagram for $u_\bullet^\bullet$, we get:
+    \begin{itemize}
+        \item Forall $i \in \bL$, a map $u_i : 1 \longrightarrow \Ty$
+        \item Forall $i < j \in \bL$, a map $u_i^j : \cU_i \longrightarrow \cU_j$ such that the following diagram commute:
+            % https://q.uiver.app/#q=WzAsMyxbMSwxLCJcXG1hdGhzZntUeX0iXSxbMSwwLCJcXG1hdGhjYWx7VX1faiJdLFswLDAsIjEiXSxbMSwwLCJcXG1hdGhzZntFbH1faiJdLFsyLDEsInVfaV5qIl0sWzIsMCwidV9qIiwyXV0=
+            \[\begin{tikzcd}
+                1 & {\mathcal{U}_j} \\
+                & {\mathsf{Ty}}
+                \arrow["{u_i^j}", from=1-1, to=1-2]
+                \arrow["{\cU_j}"', from=1-1, to=2-2]
+                \arrow["{\mathsf{El}_j}", from=1-2, to=2-2]
+            \end{tikzcd}\]
+        \item Forall $i < j \in \bL$ and $j \leq k \in \bL$, a commuting triangle, given by naturality : 
+            % https://q.uiver.app/#q=WzAsMyxbMSwxLCJcXG1hdGhjYWx7VX1faiJdLFsxLDAsIlxcbWF0aGNhbHtVfV9qIl0sWzAsMCwiMSJdLFsxLDAsIlxcdXBhcnJvd19qXmsiXSxbMiwxLCJ1X2leaiJdLFsyLDAsInVfaV5rIiwyXV0=
+            \[\begin{tikzcd}
+                1 & {\mathcal{U}_j} \\
+                & {\mathcal{U}_j}
+                \arrow["{u_i^j}", from=1-1, to=1-2]
+                \arrow["{u_i^k}"', from=1-1, to=2-2]
+                \arrow["{\uparrow_j^k}", from=1-2, to=2-2]
+            \end{tikzcd}\]
+    \end{itemize}
+    
+\end{proof}
+
+
+\section{A new algebraic presentation for universe hierarchies}
+
+\subsection{The syntax} \label{rules}
+
+In this section we define a new syntax for universe hierarchies, which provides an
+algebraic presentation for explicit (open) universes, and can be understood as a
+variant of universes à la Coquand.  The main idea is to introduce a "smallness"
+judgement, which correspond to the reflection of $\Univ_i$ in the $\Type$ world.
+The rules of this system $\mathcal{T}_F$ are described in the following.
+\begin{mathpar}
+  \ebrule[univ-decoding-small]{
+    \hypo{\Gamma\vdash A : \Univ_i}
+    \infer1{\Gamma\vdash \decode{A}_i \; \Smll_i}
+  }
+  \and
+  \ebrule[univ-coding-formation]{
+    \hypo{\Gamma\vdash A : \Smll_i}
+    \infer1{\Gamma\vdash \code{A}_i : \Univ_i}
+  }
+  \and
+  \ebrule[univ-decoding-formation]{
+    \hypo{\Gamma\vdash A : \Univ_i}
+    \infer1{\Gamma\vdash \decode{A}_i \; \Type}
+  }
+  \and
+  \ebrule[univ-coding-congruence]{
+    \hypo{\Gamma\vdash A \equiv B}
+    \hypo{\Gamma\vdash A \; \Smll_i}
+    \infer2{\Gamma\vdash \code{A}_i \equiv \code{B}_i : \Univ_i}
+  }
+  \and
+  \ebrule[univ-decoding-congruence]{
+    \hypo{\Gamma\vdash A \equiv B : U_i}
+    \infer1{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
+  }
+\end{mathpar}
+
+In this formulation, we require the rule \textsc{univ-decoding-inj} explicitely, but we don't ask for the closure under type connectives. The other new rule \textsc{univ-decoding-image} states that $\Smll_i$ is the image of $\decode{.}_i$, by requiring explicitely that $\code{.}_i$ is the right-inverse of $\decode{.}_i$.
+
+Note that there is no coherence issue related to this, as we only ask $\code{.}_i$ and $\decode{.}_i$ to be inverses of each other on the $\Smll_i$ part of $\Type$.
+
+\begin{mathpar}
+  \ebrule[univ-decoding-inj]{
+    \hypo{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
+    \infer1{\Gamma\vdash A \equiv B : U_i}
+  }
+  \and
+  \ebrule[univ-decoding-image]{
+    \hypo{\Gamma\vdash A : \Smll_i}
+    \infer1{\Gamma\vdash \decode{\code{A}_i}_i \equiv A}
+  }
+\end{mathpar}
+
+Then, we need a smallness rule corresponding to every type formation rule.
+
+\begin{mathpar}
+  \ebrule[dfun-formation]{
+    \hypo{\Gamma\vdash i+1 \leq j}
+    \infer1{\Gamma\vdash \Univ_i : \Smll_j}
+  }
+  \and
+  \ebrule[dfun-code-formation]{
+    \hypo{\Gamma\vdash M \; \Smll_i}
+    \hypo{\Gamma,x:M\vdash N \; \Smll_i}
+    \infer2{\Gamma\vdash \Pi{x:M} N\brk{x} \; \Smll_i}
+  }
+\end{mathpar}
+
+The idea behind this hierarchy can be summarized by the following picture.
+
+\begin{figure}[H]
 \centering
 
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+\tikzset{every picture/.style={line width=0.7pt}} %set default line width to 0.75pt        
 
-\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+\begin{tikzpicture}[x=0.7pt,y=0.7pt,yscale=-1,xscale=1]
 %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
 
 %Shape: Ellipse [id:dp03901608556716085] 
@@ -144,134 +333,30 @@ sorting=ynt
 \caption{Our universe hierarchy and its reflection }
 \end{figure}
 
-\section{A new algebraic Universe Hierarchy}
-
-\subsection{The syntax} \label{rules}
-
-In this section we define a new syntax for universe hierarchies, which provides an
-algebraic presentation for explicit (open) universes, and can be understood as a
-variant of universes à la Coquand.  The main idea is to introduce a "smallness"
-judgement, which correspond to the reflection of $\Univ_i$ in the $\Type$ world.
-The rules of this system $\mathcal{T}_F$ are described in the following.
-\begin{mathpar}
-  \ebrule[univ-decoding-small]{
-    \hypo{\Gamma\vdash A : \Univ_i}
-    \infer1{\Gamma\vdash \decode{A}_i \; \Smll_i}
-  }
-  \and
-  \ebrule[univ-coding-formation]{
-    \hypo{\Gamma\vdash A : \Smll_i}
-    \infer1{\Gamma\vdash \code{A}_i : \Univ_i}
-  }
-  \and
-  \ebrule[univ-decoding-formation]{
-    \hypo{\Gamma\vdash A : \Univ_i}
-    \infer1{\Gamma\vdash \decode{A}_i \; \Type}
-  }
-  \and
-  \ebrule[univ-coding-congruence]{
-    \hypo{\Gamma\vdash A \equiv B}
-    \hypo{\Gamma\vdash A \; \Smll_i}
-    \infer2{\Gamma\vdash \code{A}_i \equiv \code{B}_i : \Univ_i}
-  }
-  \and
-  \ebrule[univ-decoding-congruence]{
-    \hypo{\Gamma\vdash A \equiv B : U_i}
-    \infer1{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
-  }
-\end{mathpar}
-
-In this formulation, we require the rule \textsc{univ-decoding-inj} explicitely, but we don't ask for the closure under type connectives. The other new rule \textsc{univ-decoding-image} states that $\Smll_i$ is the image of $\decode{.}_i$, by requiring explicitely that $\code{.}_i$ is the right-inverse of $\decode{.}_i$.
-
-Note that there is no coherence issue related to this, as we only ask $\code{.}_i$ and $\decode{.}_i$ to be inverses of each other on the $\Smll_i$ part of $\Type$.\footnote{\color{red}JMS: Didn't quite understand this. The proposed rules are exactly asking these things to be proper inverses (the inj rule is equivalent to an $\eta$ law that makes the two things mutually inverse).}
-
-\begin{mathpar}
-  \ebrule[univ-decoding-inj]{
-    \hypo{\Gamma\vdash \decode{A}_i \equiv \decode{B}_i}
-    \infer1{\Gamma\vdash A \equiv B : U_i}
-  }
-  \and
-  \ebrule[univ-decoding-image]{
-    \hypo{\Gamma\vdash A : \Smll_i}
-    \infer1{\Gamma\vdash \decode{\code{A}_i}_i \equiv A}
-  }
-\end{mathpar}
-
-Then, we need a smallness rule corresponding to every type formation rule.
-
-\begin{mathpar}
-  \ebrule[dfun-formation]{
-    \hypo{\Gamma\vdash i+1 \leq j}
-    \infer1{\Gamma\vdash \Univ_i : \Smll_j}
-  }
-  \and
-  \ebrule[dfun-code-formation]{
-    \hypo{\Gamma\vdash M \; \Smll_i}
-    \hypo{\Gamma,x:M\vdash N \; \Smll_i}
-    \infer2{\Gamma\vdash \prn{x:M}\to N\brk{x} \; \Smll_i}
-  }
-\end{mathpar}
-
 
 For the presentation to be algebraic, we axiomatize $\Smll_i$ as a proposition $\Smll_i(A): \mathsf{Prop}$. This is justified by the rule \textsc{univ-decoding-inj}, and thus $A \; \Smll_i$ will be a notation for $p : \Smll_i(A)$. This notation  does not depend on the term $p$, as $\Smll_i$ is a proposition. 
 
-The rules of $\mathcal{T}_F$ are enough to recover a coherent universe hierarchy, and thus $\mathcal{T}_F$ is an algebraic presentation for natural universes.
+The rules of $\mathcal{T}_F$ are enough to recover a natural universe hierarchy, and thus $\mathcal{T}_F$ is an algebraic presentation for natural universes.
 
 \begin{proposition}[Derivability of codes and lifts]\label{derivability}
-    The following lifting function and codes for type connectives are coherent.
+    The following lifting function and codes for type connectives are coherent and natural.
 
     \begin{itemize}
         \item $\uparrow_i^j (a) := \code{\decode{a}_i}_j$
-        \item $a \to_{\Univ_i} b := \code{ \prn{x:\decode{a}_i}\to \decode{b}_i\brk{x}}_i$
+        \item $\Pi^i \; a \; b := \code{ \Pi_{x:\decode{a}_i}\; \decode{b}_i\brk{x}}_i$
         \item $\Univ_i^j := \code{\Univ_i}_j$
     \end{itemize}
 
-    Hence, the following rules are derivable.
-    \begin{mathpar}
-        \ebrule[dfun-decoding]{
-            \hypo{\Gamma\vdash a: \Univ_n}
-            \hypo{\Gamma,x:\decode{a}_n\vdash b: \Univ_n}
-            \infer2{\Gamma\vdash \decode{a \to_{\Univ_n} b}_n \equiv (x: \decode{a}_n) \to \decode{b}_n \brk{x}}
-        }
-        \and
-        \ebrule[dfun-lifting]{
-            \hypo{\Gamma\vdash a: \Univ_n}
-            \hypo{\Gamma,x:\decode{a}_n\vdash b: \Univ_n}
-            \hypo{\Gamma\vdash n<p}
-            \infer3{\Gamma\vdash \; \uparrow_n^p(a \to_{\Univ_n} b) \equiv\; \uparrow_n^p(a) \to_{\Univ_p} \uparrow_n^p(b))}
-        }
-        \and
-        \ebrule[univ-code-decoding]{
-            \hypo{}
-            \infer1{\Gamma\vdash \decode{\Univ_m^n}_n \equiv \Univ_m}
-        }
-        \and
-        \ebrule[univ-code-lifting]{
-            \hypo{\Gamma\vdash n<m}
-            \infer1{\Gamma\vdash \; \uparrow_n^p(\Univ_m^n) \equiv \Univ_m^p : \Univ_p}
-        }
-        \and
-        \ebrule[lifting-decoding]{
-            \hypo{\Gamma\vdash a : \Univ_m}
-            \hypo{\Gamma\vdash n<m}
-            \infer2{\Gamma\vdash \decode{\uparrow_m^n(a)}_n \equiv \decode{a}_m}
-        }
-        \and
-        \ebrule[lifting-lifting]{
-            \hypo{\Gamma\vdash a : \Univ_m}
-            \hypo{\Gamma\vdash m<n<p}
-            \infer2{\Gamma\vdash \; \uparrow_n^p(\uparrow_m^n(a)) \equiv\; \uparrow_m^p(a): \Univ_p}
-        }
-    \end{mathpar}
+    This means that the rules of proposition \ref{nat-hierarchy-rules} are directly derivable.
     
     \end{proposition}
 
 
 \subsection{Equivalence with a strict Tarski-style hierarchy}
 
-Conversely, a theory with Tarski universes satisfying all the equations of proposition 
-\ref{derivability}, denoted $\cT_T$, can be shown to have an injective decoding family. This result is not immediate
-and relies on the normalisation of the Tarski system.
+Conversely, in a natural universe hierarchy $\cT_T$ like in proposition \ref{nat-hierarchy-rules},
+we can show the injectivity of the decoding map. This result is not immediate and relies
+on normalisation.
 
 \begin{theoreme}[Admissibility of Injectivity]\label{InjectivityTarki}
     The following rule is admissible in $\cT_T$: 
@@ -292,12 +377,12 @@ and relies on the normalisation of the Tarski system.
     $R$ is neutral.
     Then, we proceed by induction on the normal forms $a_N = \nf(a)$ and $b_N = \nf(b)$. Notice that we need to prove a stronger statement : if $\El_i(a) = \El_j(b)$ then $i = j$ and $a = b$.\\
 
-    \underline{First case:} $a_N = \U_j^i$ and $b_N = \U_k^i$. Then, with the equation $\El_i(a_N) = \El_i(b_N)$ we get $\U_k = \U_i$ which implies $i = j$, and we are done : $\U_j^i = \U_k^i$
+    \underline{First case:} $a_N = \U_j^i$ and $b_N = \U_k^i$. Then, with the equation $\El_i(a_N) = \El_i(b_N)$ we get $\U_k = \U_i$ which implies $i = j$, and we are done : $\U_j^i = \U_k^i$\\
 
     \underline{Second case:} $a_N = \Pi^i \; c \;d$ and $b_N = \Pi^i \; c' \; d'$. Then the equation $\El_i(a_N) = \El_i(b_N)$ gives us $\Pi \; \El_i(c) \; \El_i(d) = \Pi \; \El_i(c') \; \El_i(d')$.
-    From this we can deduce $\El_i(c) = \El_i(c')$ and $\El_i(d) = \El_i(d')$. By the induction hypothesis we get $c = c'$ and $d = d'$, from which we conclude : $\Pi^i \; c \; d = \Pi^i \; c' \; d'$.
+    From this we can deduce $\El_i(c) = \El_i(c')$ and $\El_i(d) = \El_i(d')$. By the induction hypothesis we get $c = c'$ and $d = d'$, from which we conclude : $\Pi^i \; c \; d = \Pi^i \; c' \; d'$.\\
 
-    \underline{Third case:} $a_N = t_j^i c$ and $b_N = t_k^i c'$. Then the equation $\El_i(a_N) = \El_i(b_N)$ gives us $\El_j(c) = \El_k(c')$. By the induction hypothesis we get $j = k$ and
+    \underline{Third case:} $a_N = \uparrow_j^i c$ and $b_N = \uparrow_k^i c'$. Then the equation $\El_i(a_N) = \El_i(b_N)$ gives us $\El_j(c) = \El_k(c')$. By the induction hypothesis we get $j = k$ and
     $c = c'$.
 
 
@@ -377,7 +462,7 @@ Hence, the two presentations of universe hierachies are equivalent.\\
 
 \subsection{A study of the different problems related to universes}
 
-When trying to build \textit{functorial} universe hierarchies, one may encounter different
+When trying to build \textit{natural} universe hierarchies, one may encounter different
 problems.
 
 \begin{definition}[Problems related to universes]
@@ -433,210 +518,144 @@ We advocate for injectivity, that we believe to be the easier property in semant
 result may allow the construction of new models which would not necessarily use properties
 such as realignment to get strict lifts and codes. 
 
-\section{Elaboration: Embrace casts}
+\section{Elaboration}
 
 \subsection{The algorithm}
 
-We define the following elaboration rules, using a bidirectional type checking syntax. 
-
-\vspace{1em}
+We define the following elaboration rules, using a bidirectional type checking syntax.
 
 First we have the type synthesis rules, which defines judgements $\core{\Gamma} \vdash t \syn \core{t'} \in \core{T}$, where 
 everything in red is core syntax.
 
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\vdash \Gamma . x:S . \Delta$}
-\UnaryInfC{$\Gamma.x:S .\Delta \vdash x \syn x \in S$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash f \syn f' \in \Pi(S,T)$}
-\AxiomC{$\Gamma \vdash S \ni s \chk s'$}
-\BinaryInfC{$\Gamma \vdash f \; s \syn f' \; s' \in T[s']$}
-\end{prooftree}
-\end{minipage}
+\begin{mathpar}
+  \ebrule[syn-var]{
+    \hypo{\vdash \Gamma . x:S . \Delta}
+    \infer1{\Gamma.x:S .\Delta \vdash x \syn x \in S}
+  }
+  \and
+  \ebrule[syn-fun]{
+    \hypo{\Gamma \vdash f \syn f' \in \Pi(S,T)}
+    \hypo{\Gamma \vdash S \ni s \chk s'}
+    \infer2{\Gamma \vdash f \; s \syn f' \; s' \in T[s']}
+  }
+\end{mathpar}
 
-\vspace{1em}
+\begin{mathpar}
+  \ebrule[syn-proj$0$]{
+    \hypo{\Gamma \vdash p \syn p' \in \Sigma(S,T)}
+    \infer1{\Gamma \vdash \pi_0 \, p \syn \pi_0 \, p' \in S}
+  }
+  \and
+  \ebrule[syn-proj$1$]{
+    \hypo{\Gamma \vdash p \syn p' \in \Sigma(S,T)}
+    \infer1{\Gamma \vdash \pi_1 \, p \syn \pi_1 \, p' \in T[\pi_0\, p']}
+  }
+\end{mathpar}
 
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash p \syn p' \in \Sigma(S,T)$}
-\UnaryInfC{$\Gamma \vdash \pi_0 \, p \syn \pi_0 \, p' \in S$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash p \syn p' \in \Sigma(S,T)$}
-\UnaryInfC{$\Gamma \vdash \pi_1 \, p \syn \pi_1 \, p' \in T[\pi_0\, p']$}
-\end{prooftree}
-\end{minipage}
+Then, we have the type checking rules, which defines judgements $\core{\Gamma} \vdash \core{T} \ni t \syn \core{t'}$:
 
-\vspace{1em}
+\begin{mathpar}
+  \ebrule[chk-univ]{
+    \hypo{\Gamma \vdash i+1 \leq j}
+    \infer1{\Gamma \vdash \U_j \ni \U_i \chk \U_i^j }
+  }
+  \and
+  \ebrule[chk-pi]{
+    \hypo{\Gamma \vdash \U_i \ni A \chk A' }
+    \hypo{\Gamma.\decode{A'}_i \vdash \U_i \ni B \chk B' }
+    \infer2{\Gamma \vdash \U_i \ni \Pi(A,B) \chk \Pi^i(A',B') }
+  }
+\end{mathpar}
 
-First we have the type checking rules, which defines judgements $\core{\Gamma} \vdash \core{T} \ni t \syn \core{t'}$:
+\begin{mathpar}
+  \ebrule[chk-data]{
+    \hypo{\Gamma \vdash \U_i \ni \overline{u} \chk \overline{u'} }
+    \infer1{\Gamma \vdash \U_i \ni \D(\overline{u}) \chk \D^i(\overline{u'}) }
+  }
+  \and
+  \ebrule[chk-sigma]{
+    \hypo{\Gamma \vdash \U_i \ni A \chk A' }
+    \hypo{\Gamma.\decode{A'}_i \vdash \U_i \ni B \chk B' }
+    \infer2{\Gamma \vdash \U_i \ni \Sigma(A,B) \chk \Sigma^i(A',B') }
+  }
+\end{mathpar}
 
-\vspace{1em}
+\begin{mathpar}
+  \ebrule[chk-lambda]{
+    \hypo{\Gamma.S \vdash t \ni t \chk t'}
+    \infer1{\Gamma \vdash \Pi(S,T) \ni \lambda x.t \chk \lambda (x:S).t'}
+  }
+  \and
+  \ebrule[chk-pair]{
+    \hypo{\Gamma \vdash S \ni s \chk s'}
+    \hypo{\Gamma \vdash T[x:=s'] \ni t \chk t'}
+    \infer2{\Gamma \vdash \Sigma(S,T) \ni (s,t) \chk (s', t')}
+  }
+\end{mathpar}
 
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash i+1 \leq j$}
-\UnaryInfC{$\Gamma \vdash \U_j \ni \U_i \chk \U_i^j $}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash \U_i \ni A \chk A' $}
-\AxiomC{$\Gamma.\decode{A'}_i \vdash \U_i \ni B \chk B' $}
-\BinaryInfC{$\Gamma \vdash \U_i \ni \Pi(A,B) \chk \Pi^i(A',B') $}
-\end{prooftree}
-\end{minipage}
+We also need a mode switch rule, which relies on a \textit{coercion} judgement. 
+\begin{mathpar}
+  \ebrule[switch]{
+    \hypo{\Gamma \vdash E \syn M \in B }
+    \hypo{\Gamma \vdash \cast M : B \to A \rightsquigarrow M'}
+    \infer2{\Gamma \vdash A \ni E \chk M'}
+  }
+\end{mathpar}
 
-\vspace{1em}
+We now describe the coercion judgement $\core{\Gamma} \vdash \cast \core{M} : \core{B} \to \core{A} \rightsquigarrow \core{M'}$:
 
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash \U_i \ni \overline{u} \chk \overline{u'} $}
-\UnaryInfC{$\Gamma \vdash \U_i \ni \D(\overline{u}) \chk \D^i(\overline{u'}) $}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash \U_i \ni A \chk A' $}
-\AxiomC{$\Gamma.\decode{A'}_i \vdash \U_i \ni B \chk B' $}
-\BinaryInfC{$\Gamma \vdash \U_i \ni \Sigma(A,B) \chk \Sigma^i(A',B') $}
-\end{prooftree}
-\end{minipage}
+\begin{mathpar}
+  \ebrule[coe-pi]{
+    \hypo{\Gamma.(x:A') \vdash \cast x: A' \to A \rightsquigarrow u(x)}
+    \hypo{\Gamma.(x:A') \vdash \cast M(u(x)): B \to B' \rightsquigarrow N(x)}
+    \infer2{\Gamma \vdash \cast M : \Pi(A,B) \to \Pi(A',B') \rightsquigarrow \lambda x. \; N(x)}
+  }
+  \and
+  \ebrule[coe-sigma]{
+    \hypo{\Gamma.(x:A') \vdash \cast x: A' \to A \rightsquigarrow u(x)}
+    \hypo{\Gamma.(x:A') \vdash \cast M(u(x)): B \to B' \rightsquigarrow N(x)}
+    \infer2{\Gamma \vdash \cast M : \Sigma(A,B) \to \Sigma(A',B') \rightsquigarrow (u(x),\; N(x))}
+  }
+  \and
+  \ebrule[coe-univ]{
+    \hypo{\Gamma \vdash i \leq j}
+    \infer1{\Gamma \vdash \cast M : \U_i \to \U_j \rightsquigarrow \ \uparrow_i^j M}
+  }
+  \and
+  \ebrule[coe-unify]{
+    \hypo{\Gamma \vdash A \equiv B}
+    \infer1{\Gamma \vdash \cast M : A \to B \rightsquigarrow \ M}
+  }
+\end{mathpar}
 
-\vspace{1em}
+With that we add coercions from metas to negative types, that tries to infer the strucure of the meta,
+and propagate the coercion by creating new fresh metas:
+\begin{mathpar}
+  \ebrule[coe-meta-pi]{
+    \hypo{\Gamma \vdash \cast  M : \Pi(\beta_1, \beta_2) \to \Pi(A,B) \rightsquigarrow M'}
+    \infer1{\Gamma \vdash \cast M : \alpha \to \Pi(A,B) \rightsquigarrow M'}
+  }
+  \and
+  \ebrule[coe-meta-sigma]{
+    \hypo{\Gamma \vdash \cast  M : \Sigma(\beta_1, \beta_2) \to \Sigma(A,B) \rightsquigarrow M'}
+    \infer1{\Gamma \vdash \cast M : \alpha \to \Sigma(A,B) \rightsquigarrow M'}
+  }
+  \and
+  \ebrule[coe-meta-univ]{
+    \hypo{\Gamma \vdash \cast  M : \U_\beta \to \U_i \rightsquigarrow M'}
+    \infer1{\Gamma \vdash \cast M : \alpha \to \U_i \rightsquigarrow M'}
+  }
+\end{mathpar}
 
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma.S \vdash t \ni t \chk t'$}
-\UnaryInfC{$\Gamma \vdash \Pi(S,T) \ni \lambda x.t \chk \lambda (x:S).t'$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash S \ni s \chk s'$}
-\AxiomC{$\Gamma \vdash T[x:=s'] \ni t \chk t'$}
-\BinaryInfC{$\Gamma \vdash \Sigma(S,T) \ni (s,t) \chk (s', t')$}
-\end{prooftree}
-\end{minipage}
+The idea is that we infer as much as we can on the structure of the type, and propagate the coercion. Concretely,
+we extend András Kovács' algorithm on observing definitional equality, to handle casting simultaneously. This solves
+the issues related to the interplay between implicit coercions and unification. Of course, the rule \textsc{coe-unify} 
+should be applied only if all the other rules failed.  
 
-\vspace{1em}
-
-To deal with unification properly, we need to introduce casts in the user syntax. The
-casting is defined uniformly at all types in the following way. In the surface language
-we have two injections of the synthesisable terms into the checkable terms:
-
-\[
-    \text{Checkable} := \text{Synthesisable} \; | \; \cast (\text{Synthesisable})
-\]
-
-Hence we need two mode switch rules: \vspace{1em}
-
-\noindent
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash E \syn M \in B $}
-\AxiomC{$\Gamma \vdash A = B$}
-\BinaryInfC{$\Gamma \vdash A \ni E \chk M$}
-\end{prooftree}
-\end{minipage}
-\hfill
-\begin{minipage}{0.5\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash E \syn M \in B $}
-\AxiomC{$\Gamma \vdash \cast M : B \to A \rightsquigarrow M'$}
-\BinaryInfC{$\Gamma \vdash A \ni \cast(E) \chk M'$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-In the first case, the mode switch rule is the usual
-one which requires that the checking type is definitionally equal to the synthesised type.
-In the second case, we attempt to formulate a cast by asking a new casting judgement in the premise.\\
-
-The casting judgement rules define $\core{\Gamma} \vdash \cast \core{M} : \core{B} \to \core{A} \rightsquigarrow \core{M'}$:
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma.(x:A') \vdash \cast x: A' \to A \rightsquigarrow u(x)$}
-\AxiomC{$\Gamma.(x:A') \vdash \cast M(u(x)): B \to B' \rightsquigarrow N(x)$}
-\BinaryInfC{$\Gamma \vdash \cast M : \Pi(A,B) \to \Pi(A',B') \rightsquigarrow \lambda x. \; N(x)$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma.(x:A') \vdash \cast x: A' \to A \rightsquigarrow u(x)$}
-\AxiomC{$\Gamma.(x:A') \vdash \cast M(u(x)): B \to B' \rightsquigarrow N(x)$}
-\BinaryInfC{$\Gamma \vdash \cast M : \Sigma(A,B) \to \Sigma(A',B') \rightsquigarrow (u(x),\; N(x))$}
-\end{prooftree}
-\end{minipage}
-
-\vspace{1em}
-
-\noindent
-\begin{minipage}{\linewidth}
-\begin{prooftree}
-\def\fCenter{\mbox{\ $\vdash$\ }}
-\AxiomC{$\Gamma \vdash i+1 \leq j$}
-\UnaryInfC{$\Gamma \vdash \cast M : \U_i \to \U_j \rightsquigarrow t_i^j M$}
-\end{prooftree}
-\end{minipage}
-
-
-\vspace{2em}
-
-In the user syntax, the cast notation enables the user to tell the elaborator to try
-to use sub-typing or cummulativity instead of trying to unify types directly. Namely
-the casting syntax indicates the elaborator to use the second mode switch rule instead
-of the first one.\\
-
-The requirement for this cast notation comes from the fact that unification and implicit
-coercion do not play well together, due to scheduling issues in the type checking. The
-main cause of the problem is that we cannot resolve a coercion $\gamma : \alpha \triangleleft A$
-by solving $\alpha := A$ and $\gamma := 1_A$ as this is not at all general solution. Hence, even
-if a system has both reliable unification and implicit coercion mechanisms, then the combination of the
-two will invariably be unreliable.\\
-
-In the case where there is a meta-variable in the casting judgement, we \textit{postpone} the casting problem
-and wait until that meta-variable gets solved. If it never gets solved, the postponed problems are reported to the
-user.\\
+\begin{exemple}
+    If we try to do a coercion from a meta to a positive type, we end up calling directly the unifier. For instance,
+    with an identity type: $\cast M : \alpha \to (a =_A b)$ directly produces a unification problem $\alpha \overset{?}{\equiv} (a =_A b)$.
+\end{exemple}
 
 \subsection{Soundness}
 
