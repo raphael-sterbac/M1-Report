@@ -16,5 +16,47 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{ynt/global//global/global/global}
+    \entry{sconing}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=febcfb32a68d440d20e2c7034db5b652}{%
+           family={Bocquet},
+           familyi={B\bibinitperiod},
+           given={Rafaël},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d026ba10ac7a7054ff175197ac6ee5ff}{%
+           family={Kaposi},
+           familyi={K\bibinitperiod},
+           given={Ambrus},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5e47cf0864c8fdec9cc79368541c9c4d}{%
+           family={Sattler},
+           familyi={S\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{fullhash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{fullhashraw}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{bibnamehash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{authorbibnamehash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{authornamehash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{authorfullhash}{ff0740d30bb403b2faad1a9adfc003c6}
+      \strng{authorfullhashraw}{ff0740d30bb403b2faad1a9adfc003c6}
+      \field{labelalpha}{BKS23}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{For the Metatheory of Type Theory, Internal Sconing Is Enough}}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.4230/LIPIcs.FSCD.2023.18
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 
